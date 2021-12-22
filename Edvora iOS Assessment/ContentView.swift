@@ -170,7 +170,8 @@ struct LogIn: View {
 
     var body: some View {
         Button("LOGIN") {
-            print("login Tapped ")
+            print("login Tapped")
+            
         }
         .foregroundColor(.white)
         .font(.system(.headline))
@@ -179,6 +180,7 @@ struct LogIn: View {
         .cornerRadius(12)
         .offset(x: 0, y: 160)
         .opacity(allOk ? 1 : 0.5)
+        .disabled(allOk ? false : true)
         
     }
 }
