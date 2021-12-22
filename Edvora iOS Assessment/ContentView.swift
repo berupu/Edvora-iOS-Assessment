@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-var placeHolderText : String?
+var emailOk = false
+var passOk = false
+var usernameOk = false
+var allOk = false
 
 struct ContentView: View {
     
     
     var body: some View {
-        
         
         VStack {
             
@@ -81,18 +83,22 @@ struct EdvoraTextField: View {
                         .offset(x: 35, y: 0)
                         .foregroundColor(.black)
                         .onSubmit {
-                            self.placeholder = placeHolderText!
+                            check(placeholder,text)
                         }
                     
                 } else {
                     
-                        TextField("", text: $placeholder)
+                    TextField("", text: $placeholder)
                         .frame(width: 290, height: 52.0)
                         .offset(x: 35, y: 0)
                         .foregroundColor(.black)
                         .disableAutocorrection(true)
-                    
+                        .onSubmit {
+                            check(placeholder,text)
+                        }
+      
                 }
+                
                 Button(action: {
                     isSecured.toggle()
                 }) {
@@ -113,6 +119,39 @@ struct EdvoraTextField: View {
                 
                     
         }
+        
+    
+    }
+    
+    func check(_ placeholder: String, _ text: String) {
+        if text == "Username" {
+            if text.contains(" "), text.contains(text.uppercased()) {
+                usernameOk = false
+            }else {
+                usernameOk = true
+            }
+        } else if text == "Password" {
+            
+            //let number = ["1","2","3","4","4","5","6","8","9"]
+            
+            if text.count >= 8 && text.contains(text.uppercased()), text.contains(text.lowercased()){
+                
+                passOk = true
+            }else {
+                passOk = false
+            }
+        } else if text == "       Email address" {
+            if text.contains("@gmail.com") {
+                emailOk = true
+            }else {
+                emailOk = false
+            }
+        }
+        
+        if usernameOk,passOk,emailOk {
+            allOk = true
+        }
+        
     }
 }
 
@@ -131,7 +170,7 @@ struct LogIn: View {
 
     var body: some View {
         Button("LOGIN") {
-            print("login Tapped")
+            print("login Tapped ")
         }
         .foregroundColor(.white)
         .font(.system(.headline))
@@ -139,7 +178,8 @@ struct LogIn: View {
         .background(Color("login"))
         .cornerRadius(12)
         .offset(x: 0, y: 160)
-        .opacity(0.5)
+        .opacity(allOk ? 1 : 0.5)
+        
     }
 }
 
